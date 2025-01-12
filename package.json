@@ -1,0 +1,27 @@
+{
+  "name": "project-1_ecommerce-app",
+  "version": "1.0.0",
+  "description": "backend for ecommerce app",
+  "main": "index.js",
+  "scripts": {
+    "dev" : "nodemon ./index.mjs",
+    "start": "node ./index.mjs"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "bcrypt": "^5.1.1",
+    "concurrently": "^9.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.12.0",
+    "mongoose": "^8.9.1",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.16"
+  }
+}
