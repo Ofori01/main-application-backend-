@@ -4,10 +4,10 @@ dotenv.config();
 
 class Communicator {
     constructor() {
-      this.authServiceClient = axios.create({ baseURL: `http://localhost:${process.env.AUTH_PORT}/api` });
-      this.productServiceClient = axios.create({ baseURL: `http://localhost:${process.env.PRODUCTS_PORT}/api` });
-      this.orderServiceClient = axios.create({ baseURL: `http://localhost:${process.env.ORDERS_PORT}/api`});
-      this.notificationServiceClient = axios.create({ baseURL: `http://localhost:${process.env.NOTIFICATIONS_PORT}/api` });
+      this.authServiceClient = axios.create({ baseURL: `https://authentication-microservice-42th.onrender.com/api` });
+      this.productServiceClient = axios.create({ baseURL: `https://products-microservice-6x1u.onrender.com/api` });
+      this.orderServiceClient = axios.create({ baseURL: `https://orders-microservice-dhtc.onrender.com/api`});
+      this.notificationServiceClient = axios.create({ baseURL: `https://notifications-microservice-mpxx.onrender.com/api` });
     }
   //authentication service communication
   async authTest(){
