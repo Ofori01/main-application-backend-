@@ -182,6 +182,7 @@ class Communicator {
     async  getProducts() {
         const response = await this.productServiceClient.get('/getProducts').catch(
           function (error) {
+            console.error('Error in getProducts:', error);
             if (error.response) {
               // The request was made and the server responded with a status code
               // that falls out of the range of 2xx
