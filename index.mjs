@@ -11,6 +11,7 @@ dotenv.config()
 const app = express()
 app.listen(process.env.PORT, () => {
     // console.log(`Server is running on port http://localhost:${process.env.MAIN_PORT}`)
+    console.log("server is started")
 })
 
 
