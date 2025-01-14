@@ -67,6 +67,7 @@ productRouter.get('/product/getAll',async (req,res)=>{
         console.log(products)
         res.status(200).send(products);
     } catch (error) {
+        console.error('Error fetching all products:', error);
         res.status(500).send({msg: `${error.message}`})
         
     }
