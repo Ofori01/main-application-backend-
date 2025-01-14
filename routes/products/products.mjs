@@ -51,7 +51,6 @@ productRouter.delete('/product/delete/:id',authorization(['seller', 'admin']) ,a
 })
 
 productRouter.get('/product/getAll',async (req,res)=>{
-    console.log("get all products route")
     const {category} = req.query;
     if(category){
         try {
@@ -65,6 +64,7 @@ productRouter.get('/product/getAll',async (req,res)=>{
     
     else try {
         const products = await communicator.getProducts();
+        console.log(products)
         res.status(200).send(products);
     } catch (error) {
         res.status(500).send({msg: `${error.message}`})
