@@ -15,6 +15,7 @@ async function addProductController(req,res,next){
         const message = await communicator.sendNotification(seller_id, "Product added successfully", `Hello ${req.user.name},\n\nYour product:\n${title}\n${description}\nprice: ${price}\nquantity: ${stock_quantity}\nHas been added successfully to the inventory at ${formattedDateTime}\n\nThank you,\n Multi-vendor-platform team`);
         res.status(200).send(newProduct);
     } catch (error) {
+        console.log(error)
         res.status(500).send({msg: `Error: ${error.message}`})
         
     }
