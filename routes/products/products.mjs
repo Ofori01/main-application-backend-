@@ -30,6 +30,7 @@ productRouter.put('/product/update/:id',authorization(['seller']),upload.single(
         const updatedProduct = await communicator.updateProduct(product_id, product);
         res.status(200).send(updatedProduct);
     } catch (error) {
+        console.log(error)
         res.status(500).send({msg: `${error.message}`})
         
     }
