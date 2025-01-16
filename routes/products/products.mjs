@@ -64,8 +64,10 @@ productRouter.get('/product/getAll',async (req,res)=>{
     
     else try {
         const products = await communicator.getProducts();
+        console.log(products)
         res.status(200).send(products);
     } catch (error) {
+        console.error('Error fetching all products:', error);
         res.status(500).send({msg: `${error.message}`})
         
     }
