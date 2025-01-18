@@ -13,10 +13,10 @@ class Communicator {
 
 
 
-      this.authServiceClient = axios.create({ baseURL: `https://authentication-microservice-42th.onrender.com/api`,httpAgent,httpsAgent });
-      this.productServiceClient = axios.create({ baseURL: `https://products-microservice-6x1u.onrender.com/api`, httpAgent,httpsAgent });
-      this.orderServiceClient = axios.create({ baseURL: `https://orders-microservice-dhtc.onrender.com/api`,httpAgent,httpsAgent});
-      this.notificationServiceClient = axios.create({ baseURL: `https://notifications-microservice-mpxx.onrender.com/api`,httpAgent,httpsAgent });
+      this.authServiceClient = axios.create({ baseURL: `https://authentication-microservice-42th.onrender.com/api`,httpAgent,httpsAgent, timeout: 100000 });
+      this.productServiceClient = axios.create({ baseURL: `https://products-microservice-6x1u.onrender.com/api`, httpAgent,httpsAgent, timeout: 100000 });
+      this.orderServiceClient = axios.create({ baseURL: `https://orders-microservice-dhtc.onrender.com/api`,httpAgent,httpsAgent, timeout: 100000});
+      this.notificationServiceClient = axios.create({ baseURL: `https://notifications-microservice-mpxx.onrender.com/api`,httpAgent,httpsAgent, timeout: 100000 });
 
       axiosRetry(this.authServiceClient, { retries: 3 });
       axiosRetry(this.productServiceClient, { retries: 3 });
