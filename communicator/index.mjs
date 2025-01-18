@@ -31,7 +31,6 @@ class Communicator {
     async  signIn(email, password) {
         const response = await this.authServiceClient.post('/signin', { email, password }).catch(
           function (error) {
-            console.log('Error in signIn:', error);
             if (error.response) {
               // The request was made and the server responded with a status code
               // that falls out of the range of 2xx
