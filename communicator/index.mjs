@@ -18,13 +18,23 @@ class Communicator {
       this.orderServiceClient = axios.create({ baseURL: `https://orders-microservice-dhtc.onrender.com/api`,httpAgent,httpsAgent, timeout: 200000});
       this.notificationServiceClient = axios.create({ baseURL: `https://notifications-microservice-mpxx.onrender.com/api`,httpAgent,httpsAgent, timeout: 200000 });
 
-      axiosRetry(this.authServiceClient, { retries: 3 });
+      axiosRetry(this.authServiceClient, 
+        { 
+          retries: 3,
+            retryDelay: (retryCount) => {
+                console.log(`Retry attempt for productServiceClient: ${retryCount}`);
+                return retryCount * 2000;
+            },
+            onRetry: (retryCount, error, requestConfig) => {
+                console.log(`Retrying productServiceClient request: ${retryCount}`, error.message);
+            } 
+        });
       axiosRetry(this.productServiceClient, 
         { 
           retries: 3,
             retryDelay: (retryCount) => {
                 console.log(`Retry attempt for productServiceClient: ${retryCount}`);
-                return retryCount * 1000;
+                return retryCount * 2000;
             },
             onRetry: (retryCount, error, requestConfig) => {
                 console.log(`Retrying productServiceClient request: ${retryCount}`, error.message);
