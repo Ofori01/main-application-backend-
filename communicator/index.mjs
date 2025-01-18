@@ -1,13 +1,27 @@
 import axios from "axios";
 import dotenv from "dotenv";
+import axiosRetry from 'axios-retry'
 dotenv.config();
+import http from 'http'
+import https from 'https'
 
 class Communicator {
     constructor() {
-      this.authServiceClient = axios.create({ baseURL: `https://authentication-microservice-42th.onrender.com/api` });
-      this.productServiceClient = axios.create({ baseURL: `https://products-microservice-6x1u.onrender.com/api` });
-      this.orderServiceClient = axios.create({ baseURL: `https://orders-microservice-dhtc.onrender.com/api`});
-      this.notificationServiceClient = axios.create({ baseURL: `https://notifications-microservice-mpxx.onrender.com/api` });
+
+    const httpAgent = new http.Agent({ keepAlive: true });
+    const httpsAgent = new https.Agent({ keepAlive: true });
+
+
+
+      this.authServiceClient = axios.create({ baseURL: `https://authentication-microservice-42th.onrender.com/api`,httpAgent,httpsAgent });
+      this.productServiceClient = axios.create({ baseURL: `https://products-microservice-6x1u.onrender.com/api`, httpAgent,httpsAgent });
+      this.orderServiceClient = axios.create({ baseURL: `https://orders-microservice-dhtc.onrender.com/api`,httpAgent,httpsAgent});
+      this.notificationServiceClient = axios.create({ baseURL: `https://notifications-microservice-mpxx.onrender.com/api`,httpAgent,httpsAgent });
+
+      axiosRetry(this.authServiceClient, { retries: 3 });
+      axiosRetry(this.productServiceClient, { retries: 3 });
+      axiosRetry(this.orderServiceClient, { retries: 3 });
+      axiosRetry(this.notificationServiceClient, { retries: 3 });
     }
   //authentication service communication
   async authTest(){
