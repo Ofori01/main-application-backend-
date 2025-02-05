@@ -23,25 +23,25 @@ class Communicator {
         baseURL: `https://authentication-microservice-42th.onrender.com/api`, 
         httpAgent, 
         httpsAgent, 
-        timeout: 30000 
+        timeout: 60000 
       });
       this.productServiceClient = axios.create({ 
         baseURL: `https://products-microservice-6x1u.onrender.com/api`, 
         httpAgent, 
         httpsAgent, 
-        timeout: 30000 
+        timeout: 60000 
       });
       this.orderServiceClient = axios.create({ 
         baseURL: `https://orders-microservice-dhtc.onrender.com/api`, 
         httpAgent, 
         httpsAgent, 
-        timeout: 30000 
+        timeout: 60000 
       });
       this.notificationServiceClient = axios.create({ 
         baseURL: `https://notifications-microservice-mpxx.onrender.com/api`, 
         httpAgent, 
         httpsAgent, 
-        timeout: 30000 
+        timeout: 60000 
       });
   
       // Configure retry logic for all clients
