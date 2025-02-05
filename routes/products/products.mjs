@@ -3,6 +3,7 @@ import communicator from "../../communicator/index.mjs";
 import authorization from "../auth/controllers/authController.mjs";
 import multer from "multer";
 import addProductController from "./controller/addProduct.mjs";
+// import { channel } from "../../index.mjs";
 const productRouter = Router();
 
 const storage = multer.memoryStorage();
@@ -55,6 +56,7 @@ productRouter.get('/product/getAll',async (req,res)=>{
     const {category} = req.query;
     if(category){
         try {
+            
             const products = await communicator.getProductsByCategory(category);
             return res.status(200).send(products);
         } catch (error) {

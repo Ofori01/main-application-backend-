@@ -1,47 +1,70 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import axiosRetry from 'axios-retry'
-dotenv.config();
 import http from 'http'
 import https from 'https'
+dotenv.config();
 
 class Communicator {
     constructor() {
 
-    const httpAgent = new http.Agent({ keepAlive: true });
-    const httpsAgent = new https.Agent({ keepAlive: true });
-
-
-
-      this.authServiceClient = axios.create({ baseURL: `https://authentication-microservice-42th.onrender.com/api`,httpAgent,httpsAgent, timeout: 200000 });
-      this.productServiceClient = axios.create({ baseURL: `https://products-microservice-6x1u.onrender.com/api`, httpAgent,httpsAgent, timeout: 200000 });
-      this.orderServiceClient = axios.create({ baseURL: `https://orders-microservice-dhtc.onrender.com/api`,httpAgent,httpsAgent, timeout: 200000});
-      this.notificationServiceClient = axios.create({ baseURL: `https://notifications-microservice-mpxx.onrender.com/api`,httpAgent,httpsAgent, timeout: 200000 });
-
-      axiosRetry(this.authServiceClient, 
-        { 
-          retries: 3,
-            retryDelay: (retryCount) => {
-                console.log(`Retry attempt for productServiceClient: ${retryCount}`);
-                return retryCount * 2000;
-            },
-            onRetry: (retryCount, error, requestConfig) => {
-                console.log(`Retrying productServiceClient request: ${retryCount}`, error.message);
-            } 
-        });
-      axiosRetry(this.productServiceClient, 
-        { 
-          retries: 3,
-            retryDelay: (retryCount) => {
-                console.log(`Retry attempt for productServiceClient: ${retryCount}`);
-                return retryCount * 2000;
-            },
-            onRetry: (retryCount, error, requestConfig) => {
-                console.log(`Retrying productServiceClient request: ${retryCount}`, error.message);
-            }
-         });
-      axiosRetry(this.orderServiceClient, { retries: 3 });
-      axiosRetry(this.notificationServiceClient, { retries: 3 });
+      const httpAgent = new http.Agent({ 
+        keepAlive: true, 
+        maxSockets: 50, 
+        maxFreeSockets: 10 
+      });
+      const httpsAgent = new https.Agent({ 
+        keepAlive: true, 
+        maxSockets: 50, 
+        maxFreeSockets: 10 
+      });
+  
+      this.authServiceClient = axios.create({ 
+        baseURL: `https://authentication-microservice-42th.onrender.com/api`, 
+        httpAgent, 
+        httpsAgent, 
+        timeout: 30000 
+      });
+      this.productServiceClient = axios.create({ 
+        baseURL: `https://products-microservice-6x1u.onrender.com/api`, 
+        httpAgent, 
+        httpsAgent, 
+        timeout: 30000 
+      });
+      this.orderServiceClient = axios.create({ 
+        baseURL: `https://orders-microservice-dhtc.onrender.com/api`, 
+        httpAgent, 
+        httpsAgent, 
+        timeout: 30000 
+      });
+      this.notificationServiceClient = axios.create({ 
+        baseURL: `https://notifications-microservice-mpxx.onrender.com/api`, 
+        httpAgent, 
+        httpsAgent, 
+        timeout: 30000 
+      });
+  
+      // Configure retry logic for all clients
+      this.configureRetry(this.authServiceClient, 'authServiceClient');
+      this.configureRetry(this.productServiceClient, 'productServiceClient');
+      this.configureRetry(this.orderServiceClient, 'orderServiceClient');
+      this.configureRetry(this.notificationServiceClient, 'notificationServiceClient');
+    }
+  
+    configureRetry(client, serviceName) {
+      axiosRetry(client, { 
+        retries: 3,
+        retryDelay: (retryCount) => {
+          console.log(`Retry attempt for ${serviceName}: ${retryCount}`);
+          return retryCount * 2000; // Exponential backoff
+        },
+        retryCondition: (error) => {
+          return error.code === 'ECONNABORTED' || error.code === 'ETIMEDOUT' || !error.response;
+        },
+        onRetry: (retryCount, error, requestConfig) => {
+          console.log(`Retrying ${serviceName} request: ${retryCount}`, error.message);
+        }
+      });
     }
   //authentication service communication
   async authTest(){
