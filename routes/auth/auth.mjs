@@ -1,6 +1,5 @@
 import { Router } from "express";
 import communicator from "../../communicator/index.mjs";
-import { channel } from "../../index.mjs";
 import sendToQueue from "../../utils/rabbitmq_helper.mjs";
 const authRouter =  Router();
 
