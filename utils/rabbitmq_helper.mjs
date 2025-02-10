@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-import amqp from 'amqplib/callback_api';
+import amqp from 'amqplib/callback_api.js';
 
 dotenv.config()
 
