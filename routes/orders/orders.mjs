@@ -28,7 +28,7 @@ orderRouter.post('/order/create',authorization(['user','seller']), async (req, r
             //send notification to user
     
             // const message= await communicator.sendNotification(createdOrder.user_id, "Order Successfully Created",`Hello ${req.user.name},\n\nYour order:\n${createdOrder.order_id}\n${products.join('\n')}\nTotal price ${createdOrder.total_price}\nwas successfully created at ${createdOrder.updatedAt}\n\nMulti-Vendor-Platform Team`)
-            sendToQueue(order_creation_queue,createdOrder)
+            sendToQueue("order_creation_queue",createdOrder)
             //send notification to seller(s)
             // await Promise.all(
             //     sellers.map(async ({seller_id,product_title,quantity, price})=> await communicator.sendNotification(seller_id,"Order Placed", `Hello,\n\nAn order for your product ${product_title} with price ${price} has been placed.\nThe order was placed for ${quantity} units of ${product_title}\n\nYou will be notified when the payment for the order is confirmed.\n\n Thank you,\nMulti-vendor-platform-team  `))
