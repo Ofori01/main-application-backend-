@@ -3,6 +3,7 @@ import communicator from "../../communicator/index.mjs";
 import authorization from "../auth/controllers/authController.mjs";
 import multer from "multer";
 import addProductController from "./controller/addProduct.mjs";
+import sendToQueue from "../../utils/rabbitmq_helper.mjs";
 // import { channel } from "../../index.mjs";
 const productRouter = Router();
 
@@ -29,6 +30,7 @@ productRouter.put('/product/update/:id',authorization(['seller']),upload.single(
     try {
         
         const updatedProduct = await communicator.updateProduct(product_id, product);
+        sendToQueue("product_update_queue",updatedProduct)
         res.status(200).send(updatedProduct);
     } catch (error) {
         console.log(error)

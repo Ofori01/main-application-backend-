@@ -1,7 +1,16 @@
 import { Router } from "express";
 import communicator from "../../communicator/index.mjs";
-
+import { channel } from "../../index.mjs";
+import sendToQueue from "../../utils/rabbitmq_helper.mjs";
 const authRouter =  Router();
+
+
+
+
+
+
+
+
 
 
 authRouter.post('/signin', async (req,res)=> {
@@ -26,8 +35,10 @@ authRouter.post('/signup', async (req,res)=> {
     try {
         const user = await communicator.signUp( password, email, name, role);
         if(!user) throw new Error("User not created");
-        const message = await communicator.sendNotification(user.user_id, "Multi-Vendor-Platform Account Created Successfully",`Hello ${user.name},\n\nThank you for signing up on our platform. We are excited to have you on board and look forward to providing you with the best service possible.\n\nBest regards,\nThe Multi-Vendor-Platform Team`
-        );
+        // const message = await communicator.sendNotification(user.user_id, "Multi-Vendor-Platform Account Created Successfully",`Hello ${user.name},\n\nThank you for signing up on our platform. We are excited to have you on board and look forward to providing you with the best service possible.\n\nBest regards,\nThe Multi-Vendor-Platform Team`
+        // );
+        sendToQueue('user_account_creation_queue', user)
+        
         return res.status(200).send(user);
         
     } catch (error) {

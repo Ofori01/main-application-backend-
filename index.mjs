@@ -17,13 +17,12 @@ app.listen(process.env.PORT, () => {
 })
 
 
-//rabbitmq connection
+// rabbitmq connection
 // amqp.connect(process.env.RABBITMQ_URL, (err, conn) => {
 //     if (err) throw err;
 //     conn.createChannel((err, ch) => {
 //       if (err) throw err;
 //       channel = ch;
-//       channel.assertQueue('product_queue', { durable: false });
 //     });
 //   });
 
